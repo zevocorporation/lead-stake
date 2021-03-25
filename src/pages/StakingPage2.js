@@ -56,23 +56,22 @@ const HomePage = () => {
 
     const accounts = await web3.eth.getAccounts();
     const networkId = await web3.eth.net.getId();
-    console.log(networkId);
-
-    if (networkId !== 56) {
-      setError("Please connect BSC Mainnet");
+    if (networkId !== 1) {
+      setError("Please connect Mainnet account");
       setLoading(false);
       return;
     }
+
     const leadToken = new web3.eth.Contract(
       ERC20.abi,
-      "0x2ed9e96edd11a1ff5163599a66fb6f1c77fa9c66"
+      "0x1dd80016e3d4ae146ee2ebb484e8edd92dacc4ce"
     ); //mainnet address for lead token
     const totalSupply = await leadToken.methods.totalSupply().call();
     const balance = await leadToken.methods.balanceOf(accounts[0]).call();
 
     const leadStake = new web3.eth.Contract(
       LeadStake.abi,
-      "0x86ffdd2431b78685eb32df30cdf03ec627eafcdb"
+      "0x786A20fA02e4672d550BccF0BfFf118CAAE519e6"
     ); //mainnet adddress for staking dapp
     const totalStaked = await leadStake.methods.totalStaked().call();
     const minStake = await leadStake.methods.minimumStakeValue().call();
@@ -120,7 +119,7 @@ const HomePage = () => {
       if (window.ethereum) {
         if (
           window.ethereum.selectedAddress &&
-          window.ethereum.networkVersion === "56"
+          window.ethereum.networkVersion === "1"
         ) {
           await init();
         }
@@ -128,13 +127,6 @@ const HomePage = () => {
     };
     triggerAlreadyInjectedWeb3();
   }, []);
-
-  // window.ethereum.on("chainChanged", async (chainId) => {
-  //   if (chainId === "56") {
-  //   } else {
-  //     window.location.reload();
-  //   }
-  // });
 
   async function updateAll() {
     await Promise.all([
@@ -255,7 +247,7 @@ const HomePage = () => {
     try {
       let ref = referrer;
       await leadToken.methods
-        .approve("0x86ffdd2431b78685eb32df30cdf03ec627eafcdb", arg)
+        .approve("0x786A20fA02e4672d550BccF0BfFf118CAAE519e6", arg)
         .send({ from: accounts[0] });
       if (!ref || ref.length !== 42)
         ref = "0x0000000000000000000000000000000000000000";
@@ -278,7 +270,7 @@ const HomePage = () => {
     const arg = fromExponential(actual);
     try {
       await leadToken.methods
-        .approve("0x86ffdd2431b78685eb32df30cdf03ec627eafcdb", arg)
+        .approve("0x786A20fA02e4672d550BccF0BfFf118CAAE519e6", arg)
         .send({ from: accounts[0] });
 
       await leadStake.methods.stake(arg).send({ from: accounts[0] });
@@ -456,6 +448,7 @@ const HomePage = () => {
                   <div className="text-center">of total supply</div>
                 </div>
               </Card>
+
               <Card title="Fees">
                 <div className="flex flex-col pt-8 px-2">
                   <div className="text-center pb-8">
@@ -491,6 +484,7 @@ const HomePage = () => {
                   </div>
                 </div>
               </Card>
+
               {!registeredStatus ? (
                 <Card title="Staking">
                   <div className="flex flex-col pt-8 px-2">
@@ -593,6 +587,7 @@ const HomePage = () => {
                   </div>
                 </Card>
               )}
+
               <Card title="Your Earnings">
                 <div className="flex flex-col pt-8 px-2">
                   <div className="text-center pb-8">
@@ -651,6 +646,7 @@ const HomePage = () => {
                   </div>
                 </div>
               </Card>
+
               <Card title="Unstaking">
                 <div className="flex flex-col pt-8 px-2">
                   <div className="text-center pb-4">
@@ -689,6 +685,7 @@ const HomePage = () => {
             </div>
           )}
         </div>
+
         <Footer />
       </div>
     </div>
