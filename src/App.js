@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Switch, Route } from "react-router-dom";
+import Button from "./components/common/Button";
 import StakingPage from "./pages/StakingPage";
 import StakingPage2 from "./pages/StakingPage2";
 //replace stakingPage with Stackingpage2 for ETH Mainnet
@@ -10,10 +11,10 @@ const App = () => {
   return (
     <>
       <div style={{ textAlign: "center", marginTop: "1em" }}>
-        <span onClick={() => setCoin(false)} style={{ marginRight: "2em" }}>
+        <Button onClick={() => setCoin(false)} style={{ marginRight: "2em" }}>
           Ethereum
-        </span>
-        <span onClick={() => setCoin(true)}>Bsc</span>
+        </Button>
+        <Button onClick={() => setCoin(true)}>Bsc</Button>
       </div>
       <Switch>
         <Route path="/" exact>
